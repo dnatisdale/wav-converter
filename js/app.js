@@ -750,7 +750,7 @@ async function convertItem(
 
   item.outputBlob = outputBlob;
   item.outputUrl = URL.createObjectURL(outputBlob);
-  item.outputName = `${sanitizeBaseName(item.file.name)}-${format}.${getOutputExt(format)}`;
+  item.outputName = `${sanitizeBaseName(item.file.name)}.${getOutputExt(format)}`;
   item.status = "done";
   item.statusText = "Ready to download";
   item.progress = 100;
