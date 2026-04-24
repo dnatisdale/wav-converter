@@ -13,6 +13,9 @@ body { min-height: 100vh; }
 .eyebrow { color: #d0d5de; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
 .hero-badges { display:flex; flex-wrap:wrap; gap:10px; align-content:start; justify-content:flex-end; }
 .pill { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); padding: 8px 12px; border-radius: 999px; font-size: .9rem; }
+.install-row { display:flex; gap:12px; align-items:center; margin-top:16px; flex-wrap:wrap; }
+.install-help { color: var(--muted); line-height: 1.5; }
+.install-help code { background:#0f1218; border:1px solid var(--line); padding:2px 6px; border-radius:8px; }
 .main-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:18px; margin-bottom:18px; }
 .drop-zone { margin-top:8px; border:2px dashed #4a5060; background:#11141b; border-radius:16px; padding:30px 18px; text-align:center; cursor:pointer; transition:.2s ease; }
 .drop-zone.dragover { border-color:#fff; background:#1b1f29; }

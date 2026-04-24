@@ -1,8 +1,9 @@
 {
+  "id": "/",
   "name": "Batch Audio Converter",
-  "short_name": "Audio Convert",
-  "description": "Batch convert WAV files locally to MP3, WAV, OGG, Opus, and experimental AAC/M4A.",
-  "start_url": "./",
+  "short_name": "AudioConv",
+  "description": "Batch convert WAV files locally to MP3, WAV, FLAC, OGG, Opus, and experimental AAC/M4A.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0e0f12",
@@ -10,22 +11,19 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/apple-touch-icon.png",
+      "src": "./icons/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }

@@ -20,10 +20,13 @@ const el = {
   overallProgressBar: document.getElementById("overallProgressBar"),
   queueStats: document.getElementById("queueStats"),
   queueList: document.getElementById("queueList"),
+  installBtn: document.getElementById("installBtn"),
+  installHelp: document.getElementById("installHelp"),
 };
 
 const CHUNK_SIZE = 1152;
 let audioContext = null;
+let deferredInstallPrompt = null;
 
 function ensureAudioContext() {
   if (!audioContext) {
@@ -833,11 +836,57 @@ function clearQueue() {
   renderQueue();
 }
 
+function isSecureInstallContext() {
+  return (
+    window.isSecureContext ||
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1"
+  );
+}
+
+function setupInstallUi() {
+  if (!el.installBtn || !el.installHelp) return;
+
+  if (!isSecureInstallContext()) {
+    el.installBtn.hidden = true;
+    el.installHelp.innerHTML =
+      "To install, open this app from <strong>http://localhost</strong> or <strong>https://</strong>. Chrome will not show the install icon from <code>file:///</code>.";
+    return;
+  }
+
+  el.installHelp.innerHTML =
+    "Once Chrome validates the manifest and service worker, the install button or address-bar install icon should appear.";
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    el.installBtn.hidden = false;
+    el.installHelp.textContent = "This app is ready to install.";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    el.installBtn.hidden = true;
+    el.installHelp.textContent =
+      "Installed. You can now launch it like a normal app.";
+  });
+
+  el.installBtn.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice.catch(() => {});
+    deferredInstallPrompt = null;
+    el.installBtn.hidden = true;
+  });
+}
+
 function installServiceWorker() {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", async () => {
       try {
-        await navigator.serviceWorker.register("./sw.js");
+        const registration = await navigator.serviceWorker.register("./sw.js");
+        await navigator.serviceWorker.ready;
+        console.info("Service worker registered", registration.scope);
       } catch (error) {
         console.warn("Service worker registration failed", error);
       }
@@ -850,11 +899,27 @@ function handleFormatUiChange() {
   updateBitrateAvailability();
 }
 
+function openFilePicker() {
+  if (!el.fileInput) return;
+  el.fileInput.click();
+}
+
+function handleFileInputChange(event) {
+  addFiles(event.target.files);
+
+  // Reset so choosing the same file(s) again still triggers change.
+  event.target.value = "";
+}
+
 function bindEvents() {
-  el.pickFilesBtn.addEventListener("click", () => el.fileInput.click());
-  el.fileInput.addEventListener("change", (event) =>
-    addFiles(event.target.files),
-  );
+  el.pickFilesBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    openFilePicker();
+  });
+
+  el.fileInput.addEventListener("change", handleFileInputChange);
+
   el.convertAllBtn.addEventListener("click", convertAll);
   el.downloadZipBtn.addEventListener("click", downloadZip);
   el.clearBtn.addEventListener("click", clearQueue);
@@ -875,12 +940,15 @@ function bindEvents() {
     addFiles(event.dataTransfer.files);
   });
 
-  el.dropZone.addEventListener("click", () => el.fileInput.click());
+  el.dropZone.addEventListener("click", (event) => {
+    if (event.target === el.pickFilesBtn) return;
+    openFilePicker();
+  });
 
   el.dropZone.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      el.fileInput.click();
+      openFilePicker();
     }
   });
 }
@@ -888,4 +956,5 @@ function bindEvents() {
 handleFormatUiChange();
 renderQueue();
 bindEvents();
+setupInstallUi();
 installServiceWorker();

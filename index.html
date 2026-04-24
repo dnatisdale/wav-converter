@@ -25,6 +25,16 @@
             <strong>Ogg Vorbis</strong>, <strong>Opus</strong>, and
             <strong>experimental AAC/M4A</strong>. Files stay on your device.
           </p>
+          <div class="install-row">
+            <button id="installBtn" class="primary-btn" type="button" hidden>
+              Install app
+            </button>
+            <div id="installHelp" class="install-help">
+              To install, open this app from
+              <strong>http://localhost</strong> or <strong>https://</strong>.
+              Chrome will not show the install icon from <code>file:///</code>.
+            </div>
+          </div>
         </div>
         <div class="hero-badges">
           <span class="pill">Batch queue</span>
@@ -36,6 +46,15 @@
       <main class="main-grid">
         <section class="card">
           <h2>1) Add WAV files</h2>
+
+          <input
+            id="fileInput"
+            type="file"
+            accept=".wav,audio/wav,audio/x-wav"
+            multiple
+            hidden
+          />
+
           <div
             id="dropZone"
             class="drop-zone"
@@ -45,16 +64,10 @@
           >
             <div class="drop-big">Drop WAV files here</div>
             <div class="drop-small">or choose them manually</div>
+
             <button id="pickFilesBtn" class="primary-btn" type="button">
               Choose WAV files
             </button>
-            <input
-              id="fileInput"
-              type="file"
-              accept=".wav,audio/wav,audio/x-wav"
-              multiple
-              hidden
-            />
           </div>
 
           <div class="controls-grid">
