@@ -1,6 +1,6 @@
 # Batch Audio Converter PWA
 
-A static GitHub-hostable PWA that converts WAV files locally in the browser.
+A static GitHub-hostable PWA that converts WAV and MP3 files locally in the browser.
 
 ## Outputs
 - MP3

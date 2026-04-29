@@ -215,14 +215,16 @@ function renderQueue() {
 
 function addFiles(fileList) {
   const files = Array.from(fileList || []);
-  const wavs = files.filter(
+  const validFiles = files.filter(
     (file) =>
-      /\.wav$/i.test(file.name) ||
+      /\.(wav|mp3)$/i.test(file.name) ||
       file.type === "audio/wav" ||
-      file.type === "audio/x-wav",
+      file.type === "audio/x-wav" ||
+      file.type === "audio/mpeg" ||
+      file.type === "audio/mp3",
   );
 
-  for (const file of wavs) {
+  for (const file of validFiles) {
     state.queue.push({
       file,
       status: "queued",
@@ -238,9 +240,9 @@ function addFiles(fileList) {
   }
 
   setStatus(
-    wavs.length
-      ? `Added ${wavs.length} WAV file${wavs.length === 1 ? "" : "s"}.`
-      : "No WAV files were added.",
+    validFiles.length
+      ? `Added ${validFiles.length} file${validFiles.length === 1 ? "" : "s"}.`
+      : "No valid audio files were added.",
   );
 
   renderQueue();
@@ -691,7 +693,7 @@ async function convertItem(
   total,
 ) {
   item.status = "working";
-  item.statusText = "Decoding WAV...";
+  item.statusText = "Decoding audio...";
   item.progress = 4;
   renderQueue();
 

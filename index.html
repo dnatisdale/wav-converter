@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#121212" />
     <meta
       name="description"
-      content="Batch convert WAV files to MP3, WAV, FLAC, OGG, Opus, and experimental AAC/M4A in a local installable PWA."
+      content="Batch convert WAV and MP3 files to MP3, WAV, FLAC, OGG, Opus, and experimental AAC/M4A in a local installable PWA."
     />
     <title>Batch Audio Converter</title>
     <link rel="manifest" href="./manifest.webmanifest" />
@@ -20,7 +20,7 @@
           <div class="eyebrow">Local installable PWA</div>
           <h1>Batch Audio Converter</h1>
           <p>
-            Convert WAV files on your own laptop to <strong>MP3</strong>,
+            Convert WAV and MP3 files on your own laptop to <strong>MP3</strong>,
             <strong>WAV</strong>, <strong>FLAC</strong>,
             <strong>Ogg Vorbis</strong>, <strong>Opus</strong>, and
             <strong>experimental AAC/M4A</strong>. Files stay on your device.
@@ -45,12 +45,12 @@
 
       <main class="main-grid">
         <section class="card">
-          <h2>1) Add WAV files</h2>
+          <h2>1) Add WAV or MP3 files</h2>
 
           <input
             id="fileInput"
             type="file"
-            accept=".wav,audio/wav,audio/x-wav"
+            accept=".wav,.mp3,audio/wav,audio/x-wav,audio/mpeg"
             multiple
             hidden
           />
@@ -60,13 +60,13 @@
             class="drop-zone"
             tabindex="0"
             role="button"
-            aria-label="Drop WAV files here or choose files"
+            aria-label="Drop audio files here or choose files"
           >
-            <div class="drop-big">Drop WAV files here</div>
+            <div class="drop-big">Drop WAV or MP3 files here</div>
             <div class="drop-small">or choose them manually</div>
 
             <button id="pickFilesBtn" class="primary-btn" type="button">
-              Choose WAV files
+              Choose audio files
             </button>
           </div>
 
